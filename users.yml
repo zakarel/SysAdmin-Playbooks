@@ -1,0 +1,21 @@
+- hosts: all
+  gather_facts: False
+  vars:
+    users:
+      ## Adding A User with hash password ##
+      - { regexp: '^tzahia ', name: 'tzahia', password: '$1$$asd5Gdvus45gisG' }
+      ## Add more users here
+  tasks:
+    - name: create users
+      user: name={{ item.name }} state=present password={{ item.password }}
+      with_items: "{{ users }}"
+    - name: add users to sudoers
+      lineinfile:
+        dest: /etc/sudoers
+        regexp: "{{ item.regexp }}"
+        state: present
+        line: "{{ item.name }} ALL=(ALL) NOPASSWD: ALL"
+      with_items: "{{ users }}"
+    - name: set password never expire
+      shell: chage -I -1 -m 0 -M 99999 -E -1 tzahia
+      when: result|failed
