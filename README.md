@@ -24,7 +24,7 @@ git clone git@github.com:zakarel/SysAdmin-Playbooks.git
 ## Using the playbooks
 
 ```
-ansible-playbook [options] users.yml
+ansible-playbook [options] users.yaml
 ```
 Command exmplained by Ansible documentation: https://docs.ansible.com/ansible/2.4/ansible-playbook.html
 
